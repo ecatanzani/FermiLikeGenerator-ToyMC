@@ -1,0 +1,3 @@
+[submodule "deps/anyoption"]
+	path = deps/anyoption
+	url = https://github.com/hackorama/AnyOption.git
