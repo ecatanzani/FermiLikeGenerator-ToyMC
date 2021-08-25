@@ -10,7 +10,7 @@
 
 struct in_args {
     std::string workdir;
-    std::string output_path:
+    std::string output_path;
     bool verbose{false};
 };
 

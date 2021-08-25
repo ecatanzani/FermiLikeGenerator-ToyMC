@@ -12,11 +12,15 @@ ifeq ($(HAVE_TERM),dumb)
 	HAVE_TERM = none
 endif
 
+#dependencie
+DIPS_INCLUDE = $(shell root-config --incdir)
+DIPS_LIBS = $(shell root-config --ldflags) $(shell root-config --libs)
+
 S_DIR  = $(TOP)/source/
 S_INC  = $(TOP)/include/
 
-ANYOPT_SRC = $(TOP)/deps/AnyOption/anyoption.cpp
-ANYOPT_INC = $(TOP)/deps/AnyOption
+ANYOPT_SRC = $(TOP)/deps/anyoption/anyoption.cpp
+ANYOPT_INC = $(TOP)/deps/anyoption
 
 DEBUG_DIR    = Debug/obj
 RELEASE_DIR  = Release/obj
@@ -44,7 +48,7 @@ DEBUG_FLAGS = -g -D_DEBUG -Wall -Wno-unknown-pragmas
 LDFLAGS :=
 #add dips
 ifneq ($(DIPS_INCLUDE),)
-	CC_FLAGS += -I$(DIPS_INCLUDE)
+	CC_FLAGS += -I$(DIPS_INCLUDE) -I$(ANYOPT_INC)
 	LDFLAGS += $(DIPS_LIBS)
 endif
 

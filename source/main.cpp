@@ -38,7 +38,7 @@ int main(int argc, char** argv)
 		return 0;
 	}
     if (opt.getValue("workdir") || opt.getValue('w'))
-		input_args.wd = opt.getValue('w');
+		input_args.workdir = opt.getValue('w');
 	if (opt.getValue("output") || opt.getValue('o'))
 		input_args.output_path = expand_output_path(opt, opt.getValue('o'));
 	if (opt.getValue("outputdir") || opt.getValue('d'))
@@ -52,7 +52,7 @@ int main(int argc, char** argv)
 
 
 
-    std::unique_ptr<simu_config> config = std::make_unique<simu_config>()
+    //std::unique_ptr<simu_config> config = std::make_unique<simu_config>()
 
     
 
