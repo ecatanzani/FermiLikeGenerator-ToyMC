@@ -46,13 +46,9 @@ int main(int argc, char** argv)
 	if (opt.getFlag("verbose") || opt.getFlag('v'))
 		input_args.verbose = opt.getFlag('v');
 
+	std::unique_ptr<simu_config> config = std::make_unique<simu_config>(input_args.workdir);
 
-
-
-
-
-
-    //std::unique_ptr<simu_config> config = std::make_unique<simu_config>()
+	
 
     
 
