@@ -1,8 +1,6 @@
 #include "main.h"
+#include "simu.h"
 #include "utils.h"
-#include "config.h"
-
-#include <memory>
 
 int main(int argc, char** argv)
 {
@@ -46,11 +44,7 @@ int main(int argc, char** argv)
 	if (opt.getFlag("verbose") || opt.getFlag('v'))
 		input_args.verbose = opt.getFlag('v');
 
-	std::unique_ptr<simu_config> config = std::make_unique<simu_config>(input_args.workdir);
-
-	
-
-    
+	fermilike(input_args);
 
     return 0;
 }
