@@ -2,6 +2,8 @@
 #include "simu.h"
 #include "utils.h"
 
+#include <string>
+
 int main(int argc, char** argv)
 {
     AnyOption opt;
@@ -17,11 +19,16 @@ int main(int argc, char** argv)
 
     opt.addUsage("");
 
+	opt.addUsage(" -n --number                 .......... Number of particles to be simulated");
+
+	opt.addUsage("");
+
 	opt.setFlag("help", 'h');
 	opt.setOption("workdir", 'w');
 	opt.setOption("output", 'o');
 	opt.setOption("outputdir", 'd');
 	opt.setFlag("verbose", 'v');
+	opt.setOption("number", 'n');
 
     opt.processCommandArgs(argc, argv);
 
@@ -43,6 +50,8 @@ int main(int argc, char** argv)
 		input_args.output_path = expand_output_path(opt, opt.getValue('d'));
 	if (opt.getFlag("verbose") || opt.getFlag('v'))
 		input_args.verbose = opt.getFlag('v');
+	if (opt.getValue("number") || opt.getValue('n'))
+		input_args.simu_events = stoi(std::string(opt.getValue('n')));
 
 	fermilike(input_args);
 

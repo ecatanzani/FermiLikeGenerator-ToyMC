@@ -12,6 +12,8 @@ struct in_args {
     std::string workdir;
     std::string output_path;
     bool verbose{false};
+    
+    unsigned int simu_events{0};
 };
 
 #endif
