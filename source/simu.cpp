@@ -84,11 +84,18 @@ void fermilike(const in_args input_args) {
         for (unsigned int idx=0; idx<position.size(); ++idx)
             position[idx] = R[idx]+dir_cosine[idx]*t;
 
+        // Fill the simu class
         tuple->SetPosition(position);
+        tuple->SetDirCosine(dir_cosine);
+        tuple->SetThetaPhi(theta, phi);
+        tuple->SetR(R);
         tuple->Fill();
     }
 
     tuple->Write(outfile);
 
 	outfile->Close();
+
+    if (input_args.verbose)
+        std::cout << "\nOutput file has been written [" << input_args.output_path << "]\n";
 }
