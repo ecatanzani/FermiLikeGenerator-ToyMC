@@ -24,6 +24,9 @@ class helper():
         self.init_bash_files(pars)
 
     def init_condor_out_dirs(self, pars: dict):
+        if pars['verbose']:
+            print("\nCreating output folders...\n")
+
         for job_idx in range(pars['jobs']):
             self.condorDirs.append(f"{pars['output']}/job_{job_idx}")
             os.mkdir(self.condorDirs[-1])
@@ -31,6 +34,9 @@ class helper():
                 print(f"HTCondor output job folder has been created [{self.condorDirs[-1]}]")
 
     def init_sub_files(self, verbose: bool):
+        if pars['verbose']:
+            print("\nCreating sub files...\n")
+
         for current_dir in self.condorDirs:
         
             # Find out paths
@@ -60,6 +66,9 @@ class helper():
                     print(f"HTCondor sub file created [{current_dir}]")
 
     def init_bash_files(self, pars: dict):
+        if pars['verbose']:
+            print("\nCreating bash files...\n")
+
         for idx, current_dir in enumerate(self.condorDirs):
             bash_script_path = f"{current_dir}/script.sh"
             tmp_output_folder = f"{current_dir}/outFiles"
