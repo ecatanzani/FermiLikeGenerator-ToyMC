@@ -14,6 +14,7 @@ struct in_args {
     bool verbose{false};
     
     unsigned int simu_events{0};
+    unsigned int simu_seed{0};
 };
 
 #endif

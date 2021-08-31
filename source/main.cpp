@@ -20,6 +20,7 @@ int main(int argc, char** argv)
     opt.addUsage("");
 
 	opt.addUsage(" -n --number                 .......... Number of particles to be simulated");
+	opt.addUsage(" -s --seed                   .......... Simulation seed");
 
 	opt.addUsage("");
 
@@ -29,6 +30,7 @@ int main(int argc, char** argv)
 	opt.setOption("outputdir", 'd');
 	opt.setFlag("verbose", 'v');
 	opt.setOption("number", 'n');
+	opt.setOption("seed", 's');
 
     opt.processCommandArgs(argc, argv);
 
@@ -52,6 +54,8 @@ int main(int argc, char** argv)
 		input_args.verbose = opt.getFlag('v');
 	if (opt.getValue("number") || opt.getValue('n'))
 		input_args.simu_events = stoi(std::string(opt.getValue('n')));
+	if (opt.getValue("seed") || opt.getValue('s'))
+		input_args.simu_seed = stoi(std::string(opt.getValue('s')));	
 
 	fermilike(input_args);
 

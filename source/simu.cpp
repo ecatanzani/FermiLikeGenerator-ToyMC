@@ -24,7 +24,7 @@ void fermilike(const in_args input_args) {
 	}
 
     // Initialize the random generator
-    unsigned int seed{0};
+    unsigned int seed{input_args.simu_seed};
     std::unique_ptr<TRandom3> rgen = std::make_unique<TRandom3>(seed);
 
     // Initialize acceptance counters struct
