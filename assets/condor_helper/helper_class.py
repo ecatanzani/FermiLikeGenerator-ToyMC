@@ -1,7 +1,7 @@
 import os
 import shutil
 import subprocess
-
+from tqdm import tqdm
 class helper():
 
     def __init__(self):
@@ -169,7 +169,7 @@ class helper():
 
         self.condorDirs = [f"{output}/{filename}" for filename in os.listdir(output) if filename.startswith("job_")]
 
-        for dir in self.condorDirs:
+        for dir in tqdm(self.condorDirs):
             expected_condor_outDir = f"{dir}/outFiles"
             # Check if 'outFiles' dir exists
             if os.path.isdir(expected_condor_outDir):
