@@ -1,4 +1,5 @@
 import os
+import shutil
 import argparse
 import subprocess
 
@@ -19,9 +20,22 @@ class helper():
 
     def init(self, pars: dict):
 
+        if pars['recreate']:
+            self.clean_condor_dir(pars['output'])
         self.init_condor_out_dirs(pars)
         self.init_sub_files(pars['verbose'])
         self.init_bash_files(pars)
+
+    def clean_condor_dir(self, output: str):
+        condor_dirs = [f"{output}/{filename}" for filename in os.listdir(output) if filename.startswith("out")]
+
+        # Clean the job dir
+        if condor_dirs:
+            for elm in condor_dirs:
+                if os.path.isdir(elm):
+                    shutil.rmtree(elm)
+                if os.path.isfile(elm):
+                    os.remove(elm)
 
     def init_condor_out_dirs(self, pars: dict):
         if pars['verbose']:
@@ -34,7 +48,7 @@ class helper():
                 print(f"HTCondor output job folder has been created [{self.condorDirs[-1]}]")
 
     def init_sub_files(self, verbose: bool):
-        if pars['verbose']:
+        if verbose:
             print("\nCreating sub files...\n")
 
         for current_dir in self.condorDirs:
@@ -108,6 +122,8 @@ def main(args=None):
                             dest='config', help='Software Config Directory')                  
     parser.add_argument("-v", "--verbose", dest='verbose', default=False,
                         action='store_true', help='run in high verbosity mode')
+    parser.add_argument("-r", "--recreate", dest='recreate', default=False,
+                        action='store_true', help='recreate output dirs if present')
 
     opts = parser.parse_args(args)
 
@@ -117,7 +133,8 @@ def main(args=None):
         "executable": opts.executable,
         "config": opts.config,
         "events": opts.evts,
-        "verbose": opts.verbose
+        "verbose": opts.verbose,
+        "recreate": opts.recreate
     }
 
     toymc_helper = helper()
