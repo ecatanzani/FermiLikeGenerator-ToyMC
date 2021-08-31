@@ -139,6 +139,8 @@ class helper():
             return True
 
     def status(self, output: str, verbose: bool):
+        if verbose:
+            print(f"\nScanning output ROOT files [{output}]\n")
         self.explore_output_files(output)
         if verbose:
             print(f"Found {len(self.data_dirs)} GOOD condor directories")
