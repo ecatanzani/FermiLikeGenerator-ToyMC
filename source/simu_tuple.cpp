@@ -15,6 +15,7 @@ void simu_tuple::branch() {
     simu_tree->Branch("R", &R);
     simu_tree->Branch("theta", &theta, "theta/D");
     simu_tree->Branch("phi", &phi, "phi/D");
+    simu_tree->Branch("geometric_accepted", &geometric_accepted, "geometric_accepted/O");
 }
 
 void simu_tuple::SetPosition(const std::vector<double> simu_position) {
@@ -35,6 +36,10 @@ void simu_tuple::SetThetaPhi(const double simu_theta, const double simu_phi) {
 void simu_tuple::SetR(const std::vector<double> simu_R) {
     for (unsigned int idx=0; idx<simu_R.size(); ++idx)
         R[idx] = simu_R[idx];
+}
+
+void simu_tuple::SetAccepted(const bool accepted) {
+    geometric_accepted = accepted;
 }
 
 void simu_tuple::Write(TFile* outfile) {

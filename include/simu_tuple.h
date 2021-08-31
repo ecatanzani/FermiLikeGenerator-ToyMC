@@ -17,6 +17,7 @@ class simu_tuple {
         void SetDirCosine(const std::vector<double> simu_dir_cosine);
         void SetThetaPhi(const double simu_theta, const double simu_phi);
         void SetR(const std::vector<double> simu_R);
+        void SetAccepted(const bool accepted);
         void Fill() {simu_tree->Fill();};
         void Write(TFile* outfile);
 
@@ -28,6 +29,7 @@ class simu_tuple {
         TVector3 dir_cosine {0, 0, 0};
         TVector3 R {0, 0, 0};
         double theta{0}, phi{0};
+        bool geometric_accepted{false};
 };
 
 #endif

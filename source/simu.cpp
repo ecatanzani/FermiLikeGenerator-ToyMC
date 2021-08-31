@@ -1,6 +1,8 @@
 #include "simu.h"
 #include "config.h"
+#include "propagate.h"
 #include "simu_tuple.h"
+#include "acceptance.h"
 
 #include <memory>
 #include <vector>
@@ -25,6 +27,9 @@ void fermilike(const in_args input_args) {
     unsigned int seed{0};
     std::unique_ptr<TRandom3> rgen = std::make_unique<TRandom3>(seed);
 
+    // Initialize acceptance counters struct
+    std::shared_ptr<acc_counters> counters = std::make_shared<acc_counters>();
+
     // Initialize the simulation class
     std::unique_ptr<simu_tuple> tuple = std::make_unique<simu_tuple>();
 
@@ -32,7 +37,8 @@ void fermilike(const in_args input_args) {
 
     for (unsigned int ev=0; ev<input_args.simu_events; ++ev) {
 
-        // This should be inserted in a loop with a total number of elements (possibly inserted in the config file or by anyoption (better way))
+        // Update generated counter
+        counters->UpdateGenerated();
 
         // Produce 4 uniform random numbers
         std::vector<double> rndm (4, 0);
@@ -65,7 +71,7 @@ void fermilike(const in_args input_args) {
         auto square = [](const double value, const double elm) {return value + pow(value, 2);};
         auto dir_cosine_mod {sqrt(std::accumulate(std::begin(dir_cosine), std::end(dir_cosine), (double)0, square))};
         if (dir_cosine_mod>1) 
-            std::transform(std::begin(dir_cosine), std::end(dir_cosine), std::begin(dir_cosine), [&dir_cosine_mod](const double val){return val/dir_cosine_mod;});
+            std::transform(std::begin(dir_cosine), std::end(dir_cosine), std::begin(dir_cosine), [&dir_cosine_mod](const double val) -> double {return val/dir_cosine_mod;});
 
         // Obtain the starting position of the particles
         std::vector<double> R {
@@ -84,6 +90,13 @@ void fermilike(const in_args input_args) {
         for (unsigned int idx=0; idx<position.size(); ++idx)
             position[idx] = R[idx]+dir_cosine[idx]*t;
 
+        if (propagate_through_detector(position, dir_cosine, config->GetTelescopeLateralSize(), config->GetTelescopeVerticalDisplacement())) {
+            tuple->SetAccepted(true);
+            counters->UpdateAccepted();
+        }
+        else
+            tuple->SetAccepted(false);
+
         // Fill the simu class
         tuple->SetPosition(position);
         tuple->SetDirCosine(dir_cosine);
@@ -96,6 +109,12 @@ void fermilike(const in_args input_args) {
 
 	outfile->Close();
 
-    if (input_args.verbose)
+    if (input_args.verbose) {
+        std::cout << "\nNumber of generated events: " << counters->generated;
+        std::cout << "\nNumber of accepted events: " << counters->accepted;
+        std::cout << "\nAcceptance (analytical): " << compute_analytical_acceptance(config->GetTelescopeLateralSize(), config->GetTelescopeVerticalDisplacement()) ;
+        std::cout << "\nAcceptance (ToyMC): " << compute_acceptance(counters, config->GetSphereRadius());
         std::cout << "\nOutput file has been written [" << input_args.output_path << "]\n";
+    }
+
 }
