@@ -113,7 +113,7 @@ def main(args=None):
 
     toymc_helper = helper()
     toymc_helper.init(pars)
-    #toymc_helper.submit_jobs()
+    toymc_helper.submit_jobs()
 
 
 if __name__ == '__main__':
