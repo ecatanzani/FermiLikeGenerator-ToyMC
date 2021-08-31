@@ -154,7 +154,7 @@ class helper():
             for idx, elm in enumerate(self.skipped_dirs):
                 print(f"Skipped {idx} directory: {elm}")
 
-            print("\nResubmitting HTCondor jobs for {len(self.skipped_dirs)} directories\n".format())
+            print(f"\nResubmitting HTCondor jobs for {len(self.skipped_dirs)} directories\n")
             for dir in self.skipped_dirs:
                 self.clean_condor_dir(dir)
                 self.submit_job(dir)
