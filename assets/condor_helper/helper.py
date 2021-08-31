@@ -60,7 +60,7 @@ class helper():
                     print(f"HTCondor sub file created [{current_dir}]")
 
     def init_bash_files(self, pars: dict):
-        for current_dir in self.condorDirs:
+        for idx, current_dir in enumerate(self.condorDirs):
             bash_script_path = f"{current_dir}/script.sh"
             tmp_output_folder = f"{current_dir}/outFiles"
             try:
@@ -69,12 +69,7 @@ class helper():
                     out_bash.write("source /opt/rh/devtoolset-7/enable\n")
                     out_bash.write("source /storage/gpfs_data/dampe/users/ecatanzani/deps/root-6.22/bin/thisroot.sh\n")
                     out_bash.write(f"mkdir {tmp_output_folder}\n")
-
-                    _opt_command = ""
-                    if pars['seed']:
-                        _opt_command += f"-s {pars['seed']} "
-
-                    _command = f"{pars['executable']} -w {pars['config']} -d {tmp_output_folder} -n {pars['events']} {_opt_command} -v"
+                    _command = f"{pars['executable']} -w {pars['config']} -d {tmp_output_folder} -n {pars['events']} -s {idx} -v"
                     out_bash.write(_command)
 
             except OSError:
@@ -98,7 +93,6 @@ def main(args=None):
                             const=10000000, nargs='?', help='events to process in job')
     parser.add_argument("-j", "--jobs", type=int, dest='jobs',
                             const=1000, nargs='?', help='number of jobs')
-    parser.add_argument("-s", "--seed", type=int, dest='seed', help='number of jobs') 
     parser.add_argument("-x", "--executable", type=str,
                             dest='executable', help='ToyMC executable')     
     parser.add_argument("-c", "--config", type=str,
@@ -114,7 +108,6 @@ def main(args=None):
         "executable": opts.executable,
         "config": opts.config,
         "events": opts.evts,
-        "seed": opts.seed,
         "verbose": opts.verbose
     }
 
