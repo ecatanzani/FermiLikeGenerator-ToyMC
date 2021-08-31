@@ -21,21 +21,29 @@ class helper():
     def init(self, pars: dict):
 
         if pars['recreate']:
-            self.clean_condor_dir(pars['output'])
-        self.init_condor_out_dirs(pars)
-        self.init_sub_files(pars['verbose'])
-        self.init_bash_files(pars)
+            self.clean_condor_dir(pars['output'], pars['verbose'])
+            self.submit_jobs()
+        else:
+            self.init_condor_out_dirs(pars)
+            self.init_sub_files(pars['verbose'])
+            self.init_bash_files(pars)
 
-    def clean_condor_dir(self, output: str):
-        condor_dirs = [f"{output}/{filename}" for filename in os.listdir(output) if filename.startswith("out")]
+    def clean_condor_dir(self, output: str, verbose: bool):
+        if verbose:
+            print(f"\nCleaning output folder [{output}]\n")
+        
+        condor_dirs = [f"{output}/{filename}" for filename in os.listdir(output) if filename.startswith("job_")]
+        remove_files = []
+        for folder in condor_dirs:
+            remove_files += [f"{folder}/{file}" for file in os.listdir(folder) if file.startswith("out")]
+            self.condorDirs.append(folder)
 
         # Clean the job dir
-        if condor_dirs:
-            for elm in condor_dirs:
-                if os.path.isdir(elm):
-                    shutil.rmtree(elm)
-                if os.path.isfile(elm):
-                    os.remove(elm)
+        for elm in remove_files:
+            if os.path.isdir(elm):
+                shutil.rmtree(elm)
+            if os.path.isfile(elm):
+                os.remove(elm)
 
     def init_condor_out_dirs(self, pars: dict):
         if pars['verbose']:
