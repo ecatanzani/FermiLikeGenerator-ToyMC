@@ -13,6 +13,7 @@ struct in_args {
     std::string input_path;
     std::string output_path;
     bool verbose{false};
+    unsigned int threads{1};
 };
 
 #endif
