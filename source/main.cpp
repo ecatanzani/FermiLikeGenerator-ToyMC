@@ -4,8 +4,7 @@
 
 #include <string>
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
     AnyOption opt;
 
 	opt.addUsage("Usage: ");
