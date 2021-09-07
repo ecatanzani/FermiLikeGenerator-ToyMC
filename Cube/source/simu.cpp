@@ -57,7 +57,7 @@ void cube(const in_args input_args) {
         // Fill the simu class
         tuple->SetPosition(position);
         tuple->SetDirCosine(direction);
-        tuple->SetThetaPhi(simu_cube->GetTheta()*TMath::RadToDeg(), simu_cube->GetPhi()*TMath::RadToDeg());
+        tuple->SetThetaPhi(simu_cube->GetTheta(), simu_cube->GetPhi());
         tuple->Fill();
     }
 

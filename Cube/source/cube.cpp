@@ -2,6 +2,8 @@
 
 #include <stdlib.h>
 
+#include "TMath.h"
+
 const std::tuple<std::vector<double>, std::vector<double>> mccube::GetEvent() {
     reset();
     get_position(static_cast<unsigned int>(rand() % 6 + 1));
@@ -53,9 +55,9 @@ void mccube::reset() {
 }
 
 const double mccube::GetTheta() {
-    return theta;   
+    return theta*TMath::RadToDeg();   
 }
 
 const double mccube::GetPhi() {
-    return phi;
+    return phi*TMath::RadToDeg();
 }
