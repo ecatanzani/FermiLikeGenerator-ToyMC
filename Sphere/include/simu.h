@@ -5,6 +5,6 @@
 
 #include "main.h"
 
-extern void fermilike(const in_args input_args);
+extern void flsphere(const in_args input_args);
 
 #endif

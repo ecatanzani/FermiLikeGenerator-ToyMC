@@ -56,7 +56,7 @@ int main(int argc, char** argv) {
 	if (opt.getValue("seed") || opt.getValue('s'))
 		input_args.simu_seed = stoi(std::string(opt.getValue('s')));	
 
-	fermilike(input_args);
+	cube(input_args);
 
     return 0;
 }

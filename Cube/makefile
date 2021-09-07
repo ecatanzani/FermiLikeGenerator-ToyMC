@@ -19,13 +19,13 @@ DIPS_LIBS = $(shell root-config --ldflags) $(shell root-config --libs)
 S_DIR  = $(TOP)/source/
 S_INC  = $(TOP)/include/
 
-ANYOPT_SRC = $(TOP)/deps/anyoption/anyoption.cpp
-ANYOPT_INC = $(TOP)/deps/anyoption
+ANYOPT_SRC = $(TOP)/../deps/anyoption/anyoption.cpp
+ANYOPT_INC = $(TOP)/../deps/anyoption
 
 DEBUG_DIR    = Debug/obj
 RELEASE_DIR  = Release/obj
-DEBUG_PROG   = Debug/Fermi_ToyMC
-RELEASE_PROG = Release/Fermi_ToyMC
+DEBUG_PROG   = Debug/MCCube
+RELEASE_PROG = Release/MCCube
 
 # Don't compile specific files
 FILTER := 

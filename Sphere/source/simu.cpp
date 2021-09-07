@@ -13,7 +13,7 @@
 #include "TFile.h"
 #include "TRandom3.h"
 
-void fermilike(const in_args input_args) {
+void flsphere(const in_args input_args) {
 
     std::unique_ptr<simu_config> config = std::make_unique<simu_config>(input_args.workdir);
 
