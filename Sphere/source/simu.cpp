@@ -52,7 +52,7 @@ void flsphere(const in_args input_args) {
         auto ydisc{actual_radius*sin(omega)};
 
         /* 
-            Uniform generation in theta between cos(theta)=-1 and  cos(theta)=0
+            Uniform generation in theta between cos(theta)=1 and  cos(theta)=0
             This is indeed half a sphere and is related to the fact that the momentum of the particle is only positive.
             Thus we have particles thrown in a single direction
         */
@@ -105,15 +105,18 @@ void flsphere(const in_args input_args) {
         tuple->Fill();
     }
 
-    tuple->Write(outfile);
-
 	outfile->Close();
 
     if (input_args.verbose) {
+        auto theo_acc {compute_analytical_acceptance(config->GetTelescopeLateralSize(), config->GetTelescopeVerticalDisplacement())};
+        auto mc_acc {compute_acceptance(counters, config->GetSphereRadius())};
+
+        std::cout << "\n*** Stats ***\n";
         std::cout << "\nNumber of generated events: " << counters->generated;
         std::cout << "\nNumber of accepted events: " << counters->accepted;
-        std::cout << "\nAcceptance (analytical): " << compute_analytical_acceptance(config->GetTelescopeLateralSize(), config->GetTelescopeVerticalDisplacement()) ;
-        std::cout << "\nAcceptance (ToyMC): " << compute_acceptance(counters, config->GetSphereRadius());
+        std::cout << "\nAcceptance (analytical): " << theo_acc;
+        std::cout << "\nAcceptance (ToyMC): " << mc_acc;
+        std::cout << "\nDiscrepancy theoretical/MC: [" << (fabs(theo_acc-mc_acc)/theo_acc)*100 << " %]\n";
         std::cout << "\nOutput file has been written [" << input_args.output_path << "]\n";
     }
 

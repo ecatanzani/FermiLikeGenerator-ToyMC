@@ -17,8 +17,8 @@ const double compute_analytical_acceptance(const double telescope_lateral, const
     return acceptance;
 }
 
-const double compute_acceptance(std::shared_ptr<acc_counters> counters, const double sphere_radius) {
+const double compute_acceptance(std::shared_ptr<acc_counters> counters, const double cube_size) {
     double ratio {static_cast<double>(counters->accepted)/counters->generated};
-    double generation_surfice {4*M_PI*pow(sphere_radius, 2)/2};
+    double generation_surfice {6*pow(cube_size, 2)};
     return ratio*M_PI*generation_surfice;
 }

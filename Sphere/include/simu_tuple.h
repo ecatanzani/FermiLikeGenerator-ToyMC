@@ -10,7 +10,7 @@
 
 class simu_tuple {
     public:
-        simu_tuple(std::string name="fermilike_dampe_simu", std::string desc="Fermi-Like Simulation Tree");
+        simu_tuple(std::string name="mcsphere", std::string desc="ToyMC - Spherical Geometry");
         ~simu_tuple() {};
         
         void SetPosition(const std::vector<double> simu_position);

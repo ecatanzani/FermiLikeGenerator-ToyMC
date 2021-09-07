@@ -44,20 +44,35 @@ void cube(const in_args input_args) {
         // Update generated counter
         counters->UpdateGenerated();
 
-        // Generate coordinates
+        // Generate coordinates and directions
         std::tie(position, direction) = simu_cube->GetEvent();
         
-    }
+        if (propagate_through_detector(position, direction, config->GetTelescopeLateralSize(), config->GetTelescopeVerticalDisplacement())) {
+            tuple->SetAccepted(true);
+            counters->UpdateAccepted();
+        }
+        else
+            tuple->SetAccepted(false);
 
-    //tuple->Write(outfile);
+        // Fill the simu class
+        tuple->SetPosition(position);
+        tuple->SetDirCosine(direction);
+        tuple->SetThetaPhi(simu_cube->GetTheta()*TMath::RadToDeg(), simu_cube->GetPhi()*TMath::RadToDeg());
+        tuple->Fill();
+    }
 
 	outfile->Close();
 
     if (input_args.verbose) {
+        auto theo_acc {compute_analytical_acceptance(config->GetTelescopeLateralSize(), config->GetTelescopeVerticalDisplacement())};
+        auto mc_acc {compute_acceptance(counters, config->GetCubeDimension())};
+
+        std::cout << "\n*** Stats ***\n";
         std::cout << "\nNumber of generated events: " << counters->generated;
         std::cout << "\nNumber of accepted events: " << counters->accepted;
-        std::cout << "\nAcceptance (analytical): " << compute_analytical_acceptance(config->GetTelescopeLateralSize(), config->GetTelescopeVerticalDisplacement()) ;
-        //std::cout << "\nAcceptance (ToyMC): " << compute_acceptance(counters, config->GetSphereRadius());
+        std::cout << "\nAcceptance (analytical): " << theo_acc;
+        std::cout << "\nAcceptance (ToyMC): " << mc_acc;
+        std::cout << "\nDiscrepancy theoretical/MC: [" << (fabs(theo_acc-mc_acc)/theo_acc)*100 << " %]\n";
         std::cout << "\nOutput file has been written [" << input_args.output_path << "]\n";
     }
 

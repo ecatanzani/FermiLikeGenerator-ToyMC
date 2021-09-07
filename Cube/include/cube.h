@@ -18,6 +18,8 @@ class mccube {
         ~mccube() {};
         
         const std::tuple<std::vector<double>, std::vector<double>> GetEvent();
+        const double GetTheta();
+        const double GetPhi();
     private:
         void reset();
         void get_position(const unsigned int face);

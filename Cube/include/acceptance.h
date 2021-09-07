@@ -12,6 +12,6 @@ struct acc_counters {
 };
 
 extern const double compute_analytical_acceptance(const double telescope_lateral, const double telescope_vertical);
-extern const double compute_acceptance(std::shared_ptr<acc_counters> counters, const double sphere_radius);
+extern const double compute_acceptance(std::shared_ptr<acc_counters> counters, const double cube_size);
 
 #endif

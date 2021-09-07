@@ -21,10 +21,10 @@ void mccube::get_position(const unsigned int face) {
             position[2] = rgen->Uniform(-lateral_size/2, lateral_size/2);
             break;
         case 2:
-            position[2] = lateral_size/2;
+            position[1] = lateral_size/2;
         case 4:
-            if (!position[2])
-                position[2] = -lateral_size/2;
+            if (!position[1])
+                position[1] = -lateral_size/2;
             position[0] = rgen->Uniform(-lateral_size/2, lateral_size/2);
             position[2] = rgen->Uniform(-lateral_size/2, lateral_size/2);
             break;
@@ -42,7 +42,7 @@ void mccube::get_position(const unsigned int face) {
     phi = rgen->Uniform(phimin, phimax);
     theta = acos(sqrt(rgen->Uniform(cos2min, cos2max)));
     direction = std::vector<double> {sin(theta)*cos(phi), sin(theta)*sin(phi), cos(theta)};
- }
+}
 
 void mccube::reset() {
     face_idx = 0;
@@ -50,4 +50,12 @@ void mccube::reset() {
     phi = 0;
     position = std::vector<double> (3, 0);
     direction = std::vector<double> (3, 0);
+}
+
+const double mccube::GetTheta() {
+    return theta;   
+}
+
+const double mccube::GetPhi() {
+    return phi;
 }
