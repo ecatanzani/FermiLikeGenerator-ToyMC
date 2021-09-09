@@ -193,19 +193,19 @@ class helper():
                                 if not skipped_dir:
                                     self.skipped_dirs.append(dir)
                                     skipped_dir = True
-                                    self.skipped_file_noKeys += 1
+                                self.skipped_file_noKeys += 1
                         else:
                             # output ROOT file has not been opened correctly
                             if not skipped_dir:
                                 self.skipped_dirs.append(dir)
                                 skipped_dir = True
-                                self.skipped_file_notReadable += 1
+                            self.skipped_file_notReadable += 1
                     else:
                         # output ROOT file does not exist
                         if not skipped_dir:
                             self.skipped_dirs.append(dir)
                             skipped_dir = True
-                            self.skipped_file_notROOTfile += 1
+                        self.skipped_file_notROOTfile += 1
             else:
                 # 'outFiles' dir does not exists
                 self.skipped_dirs.append(dir)
