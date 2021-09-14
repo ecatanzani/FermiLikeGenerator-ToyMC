@@ -22,6 +22,8 @@ S_INC  = $(TOP)/include/
 ANYOPT_SRC = $(TOP)/../deps/anyoption/anyoption.cpp
 ANYOPT_INC = $(TOP)/../deps/anyoption
 
+PBAR_INC = $(TOP)/../deps/progressbar/include
+
 DEBUG_DIR    = Debug/obj
 RELEASE_DIR  = Release/obj
 DEBUG_PROG   = Debug/MCCube
@@ -48,7 +50,7 @@ DEBUG_FLAGS = -g -D_DEBUG -Wall -Wno-unknown-pragmas
 LDFLAGS :=
 #add dips
 ifneq ($(DIPS_INCLUDE),)
-	CC_FLAGS += -I$(DIPS_INCLUDE) -I$(ANYOPT_INC)
+	CC_FLAGS += -I$(DIPS_INCLUDE) -I$(ANYOPT_INC) -I$(PBAR_INC)
 	LDFLAGS += $(DIPS_LIBS)
 endif
 
