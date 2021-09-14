@@ -29,7 +29,7 @@ class mcsphere {
         void generate_on_disc();
         void get_position();
         void get_direction();
-        
+        void update_evts_counter();
 
         double sphere_radius {0};
         
@@ -56,6 +56,7 @@ class mcsphere {
         std::vector<double> direction;
         std::vector<double> R;
 
+        unsigned int evts {0};
         std::unique_ptr<TRandom3> rgen;
 };
 

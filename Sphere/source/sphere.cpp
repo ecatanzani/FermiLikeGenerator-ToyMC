@@ -8,11 +8,12 @@
 #include "TMath.h"
 
 const std::tuple<std::vector<double>, std::vector<double>> mcsphere::GetEvent() {
-    reset();
+    if (evts) reset();
     get_random();
     generate_on_disc();
     get_direction();
     get_position();
+    update_evts_counter();
     return std::tuple<std::vector<double>, std::vector<double>> (position, direction);
 }
 
@@ -49,7 +50,7 @@ void mcsphere::get_direction() {
         std::begin(direction), 
         std::end(direction), 
         (double)0,
-        [](const double value, const double elm) {return value + pow(value, 2);}))};
+        [](const double value, const double elm) {return value + pow(elm, 2);}))};
 
     if (dir_cosine_mod>1) 
         std::transform(
@@ -67,9 +68,9 @@ void mcsphere::get_position() {
         -stheta*xdisc};
 
     b = std::inner_product(std::begin(direction), std::end(direction), std::begin(R), (double)0);
-    c = std::accumulate(std::begin(R), std::end(R), double(0), [](const double value, const double elm) {return value + pow(value, 2);}) - pow(sphere_radius, 2);
+    c = std::accumulate(std::begin(R), std::end(R), double(0), [](const double value, const double elm) {return value + pow(elm, 2);}) - pow(sphere_radius, 2);
 
-    if ((pow(b, 2)-c)>0)
+    if ((pow(b, 2)-c)>=0)
         t = {-b -sqrt(pow(b, 2)-c)};
     
     for (unsigned int idx=0; idx<position.size(); ++idx)
@@ -92,6 +93,10 @@ void mcsphere::reset() {
     direction = std::vector<double> (3, 0);
     R = std::vector<double> (3, 0);
     rndm = std::vector<double> (4, 0);
+}
+
+void mcsphere::update_evts_counter() {
+    ++evts;
 }
 
 const double mcsphere::GetTheta() {

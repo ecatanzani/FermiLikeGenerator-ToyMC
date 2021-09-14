@@ -24,6 +24,7 @@ class mccube {
         void reset();
         void get_position(const unsigned int face);
         void get_direction();
+        void update_evts_counter();
 
         double lateral_size {0};
         unsigned int face_idx {0};
@@ -39,6 +40,7 @@ class mccube {
         std::vector<double> position;
         std::vector<double> direction;
 
+        unsigned int evts {0};
         std::unique_ptr<TRandom3> rgen;
 };
 

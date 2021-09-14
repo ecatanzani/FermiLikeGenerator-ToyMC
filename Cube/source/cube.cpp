@@ -5,10 +5,10 @@
 #include "TMath.h"
 
 const std::tuple<std::vector<double>, std::vector<double>> mccube::GetEvent() {
-    reset();
+    if (evts) reset();
     get_position(static_cast<unsigned int>(rand() % 6 + 1));
     get_direction();
-
+    update_evts_counter();
     return std::tuple<std::vector<double>, std::vector<double>> (position, direction);
 }
 
@@ -52,6 +52,10 @@ void mccube::reset() {
     phi = 0;
     position = std::vector<double> (3, 0);
     direction = std::vector<double> (3, 0);
+}
+
+void mccube::update_evts_counter() {
+    ++evts;
 }
 
 const double mccube::GetTheta() {
