@@ -14,7 +14,7 @@ const double compute_analytical_acceptance(const double telescope_lateral, const
     acceptance += 4*telescope_lateral*sqrt(pow(telescope_vertical, 2) + pow(telescope_lateral, 2))*atan(telescope_lateral/sqrt(pow(telescope_vertical, 2) + pow(telescope_lateral, 2)));
     acceptance -= 4*telescope_lateral*telescope_vertical*atan(telescope_lateral/telescope_vertical);
 
-    return acceptance;
+    return 2*acceptance;
 }
 
 const double compute_acceptance(std::shared_ptr<acc_counters> counters, const double cube_size) {

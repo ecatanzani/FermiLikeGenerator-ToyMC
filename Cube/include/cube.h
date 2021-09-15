@@ -22,8 +22,9 @@ class mccube {
         const double GetPhi();
     private:
         void reset();
-        void get_position(const unsigned int face);
+        void get_position();
         void get_direction();
+        void rotate(const unsigned int face);
         void update_evts_counter();
 
         double lateral_size {0};
