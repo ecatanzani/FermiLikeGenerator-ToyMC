@@ -13,6 +13,7 @@ extern const bool propagate_through_detector(
     const std::vector<double> position, 
     const std::vector<double> dir_cosine,
     const double detector_lateral,
-    const double detector_vertical);
+    const double detector_vertical,
+    const bool bottom_active);
 
 #endif

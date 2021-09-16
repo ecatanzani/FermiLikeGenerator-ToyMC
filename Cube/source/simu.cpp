@@ -13,7 +13,6 @@
 #include <algorithm>
 #include <tuple>
 
-
 #include "TMath.h"
 #include "TFile.h"
 #include "TRandom3.h"
@@ -35,7 +34,11 @@ void cube(const in_args input_args) {
     std::unique_ptr<simu_tuple> tuple = std::make_unique<simu_tuple>();
 
     // Initiaize the cube class
-    std::unique_ptr<mccube> simu_cube = std::make_unique<mccube>(config->GetCubeDimension(), input_args.simu_seed);
+    std::unique_ptr<mccube> simu_cube = 
+        std::make_unique<mccube>(
+            config->GetCubeDimension(), 
+            config->GetCubeFacesInfo(), 
+            input_args.simu_seed);
 
     if (input_args.verbose) std::cout << "\nSimulating " << input_args.simu_events << " events...\n\n";
 
@@ -53,7 +56,7 @@ void cube(const in_args input_args) {
         // Generate coordinates and directions
         std::tie(position, direction) = simu_cube->GetEvent();
         
-        if (propagate_through_detector(position, direction, config->GetTelescopeLateralSize(), config->GetTelescopeVerticalDisplacement())) {
+        if (propagate_through_detector(position, direction, config->GetTelescopeLateralSize(), config->GetTelescopeVerticalDisplacement(), config->IsBottomActive())) {
             tuple->SetAccepted(true);
             counters->UpdateAccepted();
         }
@@ -70,8 +73,8 @@ void cube(const in_args input_args) {
 	outfile->Close();
 
     if (input_args.verbose) {
-        auto theo_acc {compute_analytical_acceptance(config->GetTelescopeLateralSize(), config->GetTelescopeVerticalDisplacement())};
-        auto mc_acc {compute_acceptance(counters, config->GetCubeDimension())};
+        auto theo_acc {compute_analytical_acceptance(config->GetTelescopeLateralSize(), config->GetTelescopeVerticalDisplacement(), config->IsBottomActive())};
+        auto mc_acc {compute_acceptance(counters, config->GetCubeDimension(), config->GetNumberOfCubeFaces())};
 
         std::cout << "\n\n*** Stats ***\n";
         std::cout << "\nNumber of generated events: " << counters->generated;

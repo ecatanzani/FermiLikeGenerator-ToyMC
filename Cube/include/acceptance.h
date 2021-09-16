@@ -11,7 +11,14 @@ struct acc_counters {
     void UpdateAccepted() { ++accepted; }
 };
 
-extern const double compute_analytical_acceptance(const double telescope_lateral, const double telescope_vertical);
-extern const double compute_acceptance(std::shared_ptr<acc_counters> counters, const double cube_size);
+extern const double compute_analytical_acceptance(
+    const double telescope_lateral, 
+    const double telescope_vertical, 
+    const bool bottom_active);
+
+extern const double compute_acceptance(
+    std::shared_ptr<acc_counters> counters, 
+    const double cube_size,
+    const unsigned int number_of_faces);
 
 #endif
