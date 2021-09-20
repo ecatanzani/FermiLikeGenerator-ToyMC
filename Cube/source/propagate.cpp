@@ -19,7 +19,6 @@ const bool propagate_through_detector(
     const bool down_status = up_status ? propagate(dir_cosine, position, downlayer_position, detector_lateral) : false;
 
     if (up_status && down_status) status = true;
-    
 
     return status;
 }
