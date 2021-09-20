@@ -27,6 +27,7 @@ class simu_config {
         std::shared_ptr<cube_faces> GetCubeFacesInfo();
         const bool IsBottomActive();
         const unsigned int GetNumberOfCubeFaces();
+        void PrintConfigPars();
 
     private:
         std::string parse_config_file(const std::string wd, const std::string config_file);

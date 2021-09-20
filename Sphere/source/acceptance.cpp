@@ -10,9 +10,13 @@ const double compute_analytical_acceptance(const double telescope_lateral, const
     */
 
     double acceptance{0};
-    acceptance += pow(telescope_vertical, 2)*log(((pow(telescope_vertical, 2) + pow(telescope_lateral, 2))/(pow(telescope_vertical, 2) + 2*pow(telescope_lateral, 2)))*(( pow(telescope_vertical, 2) + pow(telescope_lateral, 2))/(pow(telescope_vertical, 2))));
-    acceptance += 4*telescope_lateral*sqrt(pow(telescope_vertical, 2) + pow(telescope_lateral, 2))*atan(telescope_lateral/sqrt(pow(telescope_vertical, 2) + pow(telescope_lateral, 2)));
-    acceptance -= 4*telescope_lateral*telescope_vertical*atan(telescope_lateral/telescope_vertical);
+    if (telescope_vertical) {
+        acceptance += pow(telescope_vertical, 2)*log(((pow(telescope_vertical, 2) + pow(telescope_lateral, 2))/(pow(telescope_vertical, 2) + 2*pow(telescope_lateral, 2)))*(( pow(telescope_vertical, 2) + pow(telescope_lateral, 2))/(pow(telescope_vertical, 2))));
+        acceptance += 4*telescope_lateral*sqrt(pow(telescope_vertical, 2) + pow(telescope_lateral, 2))*atan(telescope_lateral/sqrt(pow(telescope_vertical, 2) + pow(telescope_lateral, 2)));
+        acceptance -= 4*telescope_lateral*telescope_vertical*atan(telescope_lateral/telescope_vertical);
+    }
+    else
+        acceptance += M_PI*pow(telescope_lateral, 2);
 
     return acceptance;
 }

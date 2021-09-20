@@ -38,6 +38,16 @@ void simu_config::get_config_info(const std::string parsed_config) {
     }
 }
 
+
+void simu_config::PrintConfigPars() {
+	std::cout << "\n\n*** Env Config ***\n";
+	std::cout << "\nSelected geometry: [Full Sphere]";
+	std::cout << "\nDetector geometry: [square]";
+	std::cout << "\nLateral detector dimension: [" << telescope_lateral << "] (m)";
+	std::cout << "\nVertical detector displacement: [" << telescope_vertical << "] (m)";
+	std::cout << "\n\n******************\n";
+}
+
 const double simu_config::GetSphereRadius() {
 	return sphere_radius;
 }

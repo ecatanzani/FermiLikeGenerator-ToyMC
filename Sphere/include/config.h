@@ -16,6 +16,7 @@ class simu_config {
         const double GetSphereRadius();
         const double GetTelescopeLateralSize();
         const double GetTelescopeVerticalDisplacement();
+        void PrintConfigPars();
 
     private:
         std::string parse_config_file(const std::string wd, const std::string config_file);

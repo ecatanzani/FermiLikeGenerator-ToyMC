@@ -20,6 +20,7 @@
 void cube(const in_args input_args) {
 
     std::unique_ptr<simu_config> config = std::make_unique<simu_config>(input_args.workdir);
+    if (input_args.verbose) config->PrintConfigPars();
 
 	TFile* outfile = TFile::Open(input_args.output_path.c_str(), "RECREATE");
 	if (!outfile->IsOpen()) {

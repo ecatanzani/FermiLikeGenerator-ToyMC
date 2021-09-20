@@ -84,6 +84,18 @@ void simu_config::get_config_info(const std::string parsed_config) {
     }
 }
 
+void simu_config::PrintConfigPars() {
+	std::cout << "\n\n*** Env Config ***\n";
+	std::cout << "\nSelected geometry: [Cube]";
+	std::cout << "\nTOP face: " << (mycube->top ? "ON" : "OFF");
+	std::cout << "\nSIDE faces: " << (mycube->sides ? "ON" : "OFF");
+	std::cout << "\nBOTTOM face: " << (mycube->bottom ? "ON" : "OFF");
+	std::cout << "\nDetector geometry: [square]";
+	std::cout << "\nLateral detector dimension: [" << telescope_lateral << "] (m)";
+	std::cout << "\nVertical detector displacement: [" << telescope_vertical << "] (m)";
+	std::cout << "\n\n******************\n";
+}
+
 const bool simu_config::check_cube_details() {
 	return mycube->number>0 ? true : false;
 }
