@@ -2,27 +2,26 @@
 
 #include <cmath>
 
-#include <iostream>
-
-const bool propagate_through_detector(
+std::tuple<bool, std::tuple<std::vector<double>, std::vector<double>>> propagate_through_detector(
     const std::vector<double> position, 
     const std::vector<double> dir_cosine,
     const double detector_lateral,
     const double detector_vertical)
 {
-    std::vector<double> uplayer_position {0, 0, detector_vertical/2};
-    std::vector<double> downlayer_position {0, 0, -detector_vertical/2};
+    std::vector<double> uplayer_position {999, 999, detector_vertical/2};
+    std::vector<double> downlayer_position {999, 999, -detector_vertical/2};
     bool status {false};
 
     if (position[2]<downlayer_position[2]) {
-    
+        
         const bool up_status = propagate(dir_cosine, position, uplayer_position, detector_lateral);
-        const bool down_status = up_status ? propagate(dir_cosine, position, downlayer_position, detector_lateral) : false;
+        //const bool down_status = up_status ? propagate(dir_cosine, position, downlayer_position, detector_lateral) : false;
+        const bool down_status = propagate(dir_cosine, position, downlayer_position, detector_lateral);
 
         if (up_status && down_status) status = true;
     }
 
-    return status;
+    return std::tuple<bool, std::tuple<std::vector<double>, std::vector<double>>> (status, std::tuple<std::vector<double>, std::vector<double>> (uplayer_position, downlayer_position));
 }
 
 const bool propagate(
@@ -40,7 +39,7 @@ const bool propagate(
         detector_layer_position[idx] = position[idx] + radius*dir_cosine[idx];
         if (fabs(detector_layer_position[idx])>detector_lateral/2) {
             status = false;
-            break;
+            //break;
         }
     }
 

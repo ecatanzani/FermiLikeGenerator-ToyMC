@@ -7,6 +7,7 @@
 
 #include "progressbar.hpp"
 
+#include <tuple>
 #include <memory>
 #include <vector>
 #include <numeric>
@@ -39,6 +40,8 @@ void flsphere(const in_args input_args) {
     if (input_args.verbose) std::cout << "\nSimulating " << input_args.simu_events << " events...\n\n";
 
     std::vector<double> position, direction;
+    std::tuple<std::vector<double>, std::vector<double>> detector_position;
+    bool status;
     progressbar bar(input_args.simu_events);
     bar.set_todo_char(" ");
     bar.set_done_char("█");
@@ -51,8 +54,8 @@ void flsphere(const in_args input_args) {
 
         // Generate coordinates and directions
         std::tie(position, direction) = simu_sphere->GetEvent();
-        
-        if (propagate_through_detector(position, direction, config->GetTelescopeLateralSize(), config->GetTelescopeVerticalDisplacement())) {
+        std::tie(status, detector_position) = propagate_through_detector(position, direction, config->GetTelescopeLateralSize(), config->GetTelescopeVerticalDisplacement());
+        if (status) {
             tuple->SetAccepted(true);
             counters->UpdateAccepted();
         }
@@ -61,6 +64,7 @@ void flsphere(const in_args input_args) {
 
         // Fill the simu class
         tuple->SetPosition(position);
+        tuple->SetLayerPosition(detector_position);
         tuple->SetDirCosine(direction);
         tuple->SetThetaPhi(simu_sphere->GetTheta(), simu_sphere->GetPhi());
         tuple->SetR(simu_sphere->GetImpactParameter());
