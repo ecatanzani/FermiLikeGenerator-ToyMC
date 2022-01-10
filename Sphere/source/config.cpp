@@ -1,7 +1,7 @@
 #include "config.h"
 
 simu_config::simu_config(const std::string wd) {
-    std::string config_file_name{"config/simu.conf"};
+    std::string config_file_name{"/simu.conf"};
     get_config_info(parse_config_file(wd, config_file_name));
 }
 
